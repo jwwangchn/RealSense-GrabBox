@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "cmakeccompilerid.c": "cpp",
+        "functional": "cpp",
+        "array": "cpp",
+        "iostream": "cpp",
+        "*.ipp": "cpp",
+        "*.tcc": "cpp",
+        "slist": "cpp",
+        "system_error": "cpp"
+    }
+}
