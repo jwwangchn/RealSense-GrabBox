@@ -57,9 +57,33 @@ include CMakeFiles/realsense-grabbox.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/realsense-grabbox.dir/flags.make
 
+CMakeFiles/realsense-grabbox.dir/realsence.cpp.o: CMakeFiles/realsense-grabbox.dir/flags.make
+CMakeFiles/realsense-grabbox.dir/realsence.cpp.o: ../realsence.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/realsense-grabbox.dir/realsence.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/realsense-grabbox.dir/realsence.cpp.o -c /home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsence.cpp
+
+CMakeFiles/realsense-grabbox.dir/realsence.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/realsense-grabbox.dir/realsence.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsence.cpp > CMakeFiles/realsense-grabbox.dir/realsence.cpp.i
+
+CMakeFiles/realsense-grabbox.dir/realsence.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/realsense-grabbox.dir/realsence.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsence.cpp -o CMakeFiles/realsense-grabbox.dir/realsence.cpp.s
+
+CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.requires:
+
+.PHONY : CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.requires
+
+CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.provides: CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.requires
+	$(MAKE) -f CMakeFiles/realsense-grabbox.dir/build.make CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.provides.build
+.PHONY : CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.provides
+
+CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.provides.build: CMakeFiles/realsense-grabbox.dir/realsence.cpp.o
+
+
 CMakeFiles/realsense-grabbox.dir/main.cpp.o: CMakeFiles/realsense-grabbox.dir/flags.make
 CMakeFiles/realsense-grabbox.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/realsense-grabbox.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/realsense-grabbox.dir/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/realsense-grabbox.dir/main.cpp.o -c /home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/main.cpp
 
 CMakeFiles/realsense-grabbox.dir/main.cpp.i: cmake_force
@@ -83,11 +107,13 @@ CMakeFiles/realsense-grabbox.dir/main.cpp.o.provides.build: CMakeFiles/realsense
 
 # Object files for target realsense-grabbox
 realsense__grabbox_OBJECTS = \
+"CMakeFiles/realsense-grabbox.dir/realsence.cpp.o" \
 "CMakeFiles/realsense-grabbox.dir/main.cpp.o"
 
 # External object files for target realsense-grabbox
 realsense__grabbox_EXTERNAL_OBJECTS =
 
+realsense-grabbox: CMakeFiles/realsense-grabbox.dir/realsence.cpp.o
 realsense-grabbox: CMakeFiles/realsense-grabbox.dir/main.cpp.o
 realsense-grabbox: CMakeFiles/realsense-grabbox.dir/build.make
 realsense-grabbox: /usr/local/lib/libopencv_videostab.so.2.4.13
@@ -95,7 +121,6 @@ realsense-grabbox: /usr/local/lib/libopencv_ts.a
 realsense-grabbox: /usr/local/lib/libopencv_superres.so.2.4.13
 realsense-grabbox: /usr/local/lib/libopencv_stitching.so.2.4.13
 realsense-grabbox: /usr/local/lib/libopencv_contrib.so.2.4.13
-realsense-grabbox: source/libsource_lib.a
 realsense-grabbox: /usr/local/lib/libopencv_nonfree.so.2.4.13
 realsense-grabbox: /usr/local/lib/libopencv_ocl.so.2.4.13
 realsense-grabbox: /usr/local/lib/libopencv_gpu.so.2.4.13
@@ -111,7 +136,7 @@ realsense-grabbox: /usr/local/lib/libopencv_imgproc.so.2.4.13
 realsense-grabbox: /usr/local/lib/libopencv_flann.so.2.4.13
 realsense-grabbox: /usr/local/lib/libopencv_core.so.2.4.13
 realsense-grabbox: CMakeFiles/realsense-grabbox.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable realsense-grabbox"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable realsense-grabbox"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/realsense-grabbox.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -119,6 +144,7 @@ CMakeFiles/realsense-grabbox.dir/build: realsense-grabbox
 
 .PHONY : CMakeFiles/realsense-grabbox.dir/build
 
+CMakeFiles/realsense-grabbox.dir/requires: CMakeFiles/realsense-grabbox.dir/realsence.cpp.o.requires
 CMakeFiles/realsense-grabbox.dir/requires: CMakeFiles/realsense-grabbox.dir/main.cpp.o.requires
 
 .PHONY : CMakeFiles/realsense-grabbox.dir/requires

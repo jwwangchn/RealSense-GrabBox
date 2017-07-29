@@ -5,20 +5,22 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/main.cpp" "/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles/realsense-grabbox.dir/main.cpp.o"
+  "/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsence.cpp" "/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles/realsense-grabbox.dir/realsence.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../."
-  ".././source"
+  "../asp/inc"
+  "../uart/linux"
+  "../fastcluster"
+  "../logging"
   "/usr/local/include/opencv"
   "/usr/local/include"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/source/CMakeFiles/source_lib.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

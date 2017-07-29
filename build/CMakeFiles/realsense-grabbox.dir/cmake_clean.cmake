@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/realsense-grabbox.dir/realsence.cpp.o"
   "CMakeFiles/realsense-grabbox.dir/main.cpp.o"
   "realsense-grabbox.pdb"
   "realsense-grabbox"

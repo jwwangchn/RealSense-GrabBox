@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-.././source/realsense.h
-librealsense/rs.hpp
--
-opencv2/opencv.hpp
--
-
 /home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/main.cpp
 librealsense/rs.hpp
 -
@@ -21,6 +15,16 @@ opencv2/highgui.hpp
 -
 realsense.h
 /home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsence.cpp
+realsense.h
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+librealsense/rs.hpp
+-
+opencv2/opencv.hpp
+-
 
 /usr/local/include/librealsense/rs.h
 
