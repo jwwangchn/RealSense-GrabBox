@@ -1,6 +1,2 @@
-/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles/edit_cache.dir
-/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles/rebuild_cache.dir
-/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/CMakeFiles/realsense-grabbox.dir
-/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/source/CMakeFiles/edit_cache.dir
-/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/source/CMakeFiles/rebuild_cache.dir
-/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/build/source/CMakeFiles/source_lib.dir
+/home/ubuntu/Documents/RoboMasters/RealSense-GrabBox/build/CMakeFiles/realsense-grabbox.dir
+/home/ubuntu/Documents/RoboMasters/RealSense-GrabBox/build/source/CMakeFiles/source_lib.dir

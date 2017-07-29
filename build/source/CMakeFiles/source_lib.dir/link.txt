@@ -1,2 +1,2 @@
-/usr/bin/ar qc libsource_lib.a  CMakeFiles/source_lib.dir/realsence.cpp.o
+/usr/bin/ar cr libsource_lib.a  CMakeFiles/source_lib.dir/realsence.cpp.o
 /usr/bin/ranlib libsource_lib.a

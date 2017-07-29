@@ -8,9 +8,9 @@ using namespace cv;
 using namespace rs;
 
 // Window size and frame rate
-int const INPUT_WIDTH = 320;
-int const INPUT_HEIGHT = 240;
-int const FRAMERATE = 60;
+int const INPUT_WIDTH = 640;
+int const INPUT_HEIGHT = 480;
+int const FRAMERATE = 30;
 
 // Named windows
 char *const WINDOW_DEPTH = "Depth Image";
