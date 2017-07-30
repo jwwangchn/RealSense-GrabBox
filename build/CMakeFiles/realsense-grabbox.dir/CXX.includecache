@@ -6,6 +6,7 @@
 
 #IncludeRegexTransform: 
 
+<<<<<<< HEAD
 .././source/realsense.h
 librealsense/rs.hpp
 -
@@ -13,6 +14,9 @@ opencv2/opencv.hpp
 -
 
 /home/ubuntu/Documents/RoboMasters/RealSense-GrabBox/main.cpp
+=======
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/main.cpp
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
 librealsense/rs.hpp
 -
 opencv2/opencv.hpp
@@ -22,7 +26,59 @@ opencv2/highgui.hpp
 realsense.h
 /home/ubuntu/Documents/RoboMasters/RealSense-GrabBox/realsense.h
 
+<<<<<<< HEAD
 /home/ubuntu/anaconda2/include/opencv2/calib3d/calib3d.hpp
+=======
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsence.cpp
+realsense.h
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+librealsense/rs.hpp
+-
+opencv2/opencv.hpp
+-
+
+/usr/local/include/librealsense/rs.h
+
+/usr/local/include/librealsense/rs.hpp
+rsutil.h
+/usr/local/include/librealsense/rsutil.h
+rscore.hpp
+/usr/local/include/librealsense/rscore.hpp
+cmath
+-
+cstdint
+-
+cstring
+-
+sstream
+-
+stdexcept
+-
+functional
+-
+vector
+-
+
+/usr/local/include/librealsense/rscore.hpp
+rs.h
+/usr/local/include/librealsense/rs.h
+cstdint
+-
+cstddef
+-
+mutex
+-
+
+/usr/local/include/librealsense/rsutil.h
+rs.h
+/usr/local/include/librealsense/rs.h
+assert.h
+/usr/local/include/librealsense/assert.h
+
+/usr/local/include/opencv2/calib3d/calib3d.hpp
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
 opencv2/core/core.hpp
 /home/ubuntu/anaconda2/include/opencv2/calib3d/opencv2/core/core.hpp
 opencv2/features2d/features2d.hpp

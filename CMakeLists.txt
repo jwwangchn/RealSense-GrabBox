@@ -1,37 +1,42 @@
+<<<<<<< HEAD
 # CMake 最低版本号要求
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+=======
+﻿cmake_minimum_required(VERSION 2.8)
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
 
-# 项目信息
-PROJECT(realsense-grabbox)
+project(realsense-grabbox)
 
-# 生成release版本
-SET(CMAKE_BUILD_TYPE "DEBUG")
+set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE} -std=Release")
 
-if (CMAKE_BUILD_TYPE STREQUAL debug)
-    ADD_DEFINITIONS(-D_DEBUG)
-endif ()
+include(CheckCXXCompilerFlag)
 
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb -std=c++11")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -std=c++11")
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 
-SET(DEPENDENCIES realsense)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+    message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
 
-# 添加包含目录
-INCLUDE_DIRECTORIES(./ ./source)
+include_directories(asp/inc)
+include_directories(uart/linux) 
+include_directories(fastcluster)
+include_directories(logging)
 
-IF(WIN32)
-# Windows平台执行
-INCLUDE($ENV{OPENCV_2413_PREBUILD_DIR}/OpenCVConfig.cmake)
-message( STATUS "OpenCV library status:" )              # 输出一下得到的变量
-message( STATUS "version: ${OpenCV_VERSION}" )
-message( STATUS "libraries: ${OpenCV_LIBS}" )
-message( STATUS "include path: ${OpenCV_INCLUDE_DIRS}" )
+FILE(GLOB sourcefiles "asp/src/*.c" "uart/linux/*.cpp" "fastcluster/*.cpp"  "*.cpp" "*.c")
 
-INCLUDE_DIRECTORIES(${OpenCV_INCLUDE_DIRS})
+add_executable(realsense-grabbox ${sourcefiles})
 
-ELSEIF(UNIX)
-# Linux平台执行
+# library
+set(DEPENDENCIES realsense)
+find_package(OpenCV 2 REQUIRED)
+message(STATUS "OpenCV version: ${OpenCV_VERSION}")
 
+<<<<<<< HEAD
 # FIND_PACKAGE(OpenCV 3 REQUIRED)
 INCLUDE(/usr/local/share/OpenCV/OpenCVConfig.cmake)
 
@@ -59,3 +64,6 @@ TARGET_LINK_LIBRARIES(realsense-grabbox ${OpenCV_LIBS} source_lib ${DEPENDENCIES
 
 # 设置可执行文件生成路径
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+=======
+target_link_libraries(realsense-grabbox pthread ${OpenCV_LIBS} ${DEPENDENCIES})
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf

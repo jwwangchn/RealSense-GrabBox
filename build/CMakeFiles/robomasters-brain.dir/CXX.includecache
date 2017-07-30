@@ -6,11 +6,29 @@
 
 #IncludeRegexTransform: 
 
+<<<<<<< HEAD:build/source/CMakeFiles/source_lib.dir/CXX.includecache
 /home/ubuntu/Documents/RoboMasters/RealSense-GrabBox/source/realsence.cpp
 realsense.h
 /home/ubuntu/Documents/RoboMasters/RealSense-GrabBox/source/realsense.h
 
 /home/ubuntu/Documents/RoboMasters/RealSense-GrabBox/source/realsense.h
+=======
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/main.cpp
+librealsense/rs.hpp
+-
+opencv2/opencv.hpp
+-
+opencv2/highgui.hpp
+-
+realsense.h
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsence.cpp
+realsense.h
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+
+/home/nuc/Documents/RoboMasters/RealSense/RealSense-GrabBox/realsense.h
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf:build/CMakeFiles/robomasters-brain.dir/CXX.includecache
 librealsense/rs.hpp
 -
 opencv2/opencv.hpp
@@ -166,7 +184,15 @@ opencv2/core/core.hpp
 opencv2/flann/defines.h
 /home/ubuntu/anaconda2/include/opencv2/flann/opencv2/flann/defines.h
 
+<<<<<<< HEAD:build/source/CMakeFiles/source_lib.dir/CXX.includecache
 /home/ubuntu/anaconda2/include/opencv2/highgui/highgui.hpp
+=======
+/usr/local/include/opencv2/highgui.hpp
+opencv2/highgui/highgui.hpp
+/usr/local/include/opencv2/opencv2/highgui/highgui.hpp
+
+/usr/local/include/opencv2/highgui/highgui.hpp
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf:build/CMakeFiles/robomasters-brain.dir/CXX.includecache
 opencv2/core/core.hpp
 /home/ubuntu/anaconda2/include/opencv2/highgui/opencv2/core/core.hpp
 opencv2/highgui/highgui_c.h

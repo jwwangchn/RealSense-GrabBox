@@ -1,2 +1,7 @@
 CMAKE_PROGRESS_1 = 1
+<<<<<<< HEAD
+=======
+CMAKE_PROGRESS_2 = 2
+CMAKE_PROGRESS_3 = 3
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
 

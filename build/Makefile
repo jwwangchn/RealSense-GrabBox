@@ -114,19 +114,6 @@ realsense-grabbox/fast:
 	$(MAKE) -f CMakeFiles/realsense-grabbox.dir/build.make CMakeFiles/realsense-grabbox.dir/build
 .PHONY : realsense-grabbox/fast
 
-#=============================================================================
-# Target rules for targets named source_lib
-
-# Build rule for target.
-source_lib: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 source_lib
-.PHONY : source_lib
-
-# fast build rule for target.
-source_lib/fast:
-	$(MAKE) -f source/CMakeFiles/source_lib.dir/build.make source/CMakeFiles/source_lib.dir/build
-.PHONY : source_lib/fast
-
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -151,6 +138,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/realsense-grabbox.dir/build.make CMakeFiles/realsense-grabbox.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+realsence.o: realsence.cpp.o
+
+.PHONY : realsence.o
+
+# target to build an object file
+realsence.cpp.o:
+	$(MAKE) -f CMakeFiles/realsense-grabbox.dir/build.make CMakeFiles/realsense-grabbox.dir/realsence.cpp.o
+.PHONY : realsence.cpp.o
+
+realsence.i: realsence.cpp.i
+
+.PHONY : realsence.i
+
+# target to preprocess a source file
+realsence.cpp.i:
+	$(MAKE) -f CMakeFiles/realsense-grabbox.dir/build.make CMakeFiles/realsense-grabbox.dir/realsence.cpp.i
+.PHONY : realsence.cpp.i
+
+realsence.s: realsence.cpp.s
+
+.PHONY : realsence.s
+
+# target to generate assembly for a file
+realsence.cpp.s:
+	$(MAKE) -f CMakeFiles/realsense-grabbox.dir/build.make CMakeFiles/realsense-grabbox.dir/realsence.cpp.s
+.PHONY : realsence.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -159,11 +173,17 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... realsense-grabbox"
+<<<<<<< HEAD
 	@echo "... rebuild_cache"
 	@echo "... source_lib"
+=======
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... realsence.o"
+	@echo "... realsence.i"
+	@echo "... realsence.s"
 .PHONY : help
 
 

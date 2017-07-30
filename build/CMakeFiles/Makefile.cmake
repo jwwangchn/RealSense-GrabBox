@@ -8,6 +8,7 @@ SET(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 SET(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "../CMakeLists.txt"
+<<<<<<< HEAD
   "CMakeFiles/2.8.12.2/CMakeCCompiler.cmake"
   "CMakeFiles/2.8.12.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/2.8.12.2/CMakeSystem.cmake"
@@ -28,6 +29,33 @@ SET(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-2.8/Modules/Platform/Linux-GNU.cmake"
   "/usr/share/cmake-2.8/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-2.8/Modules/Platform/UnixPaths.cmake"
+=======
+  "CMakeFiles/3.5.1/CMakeCCompiler.cmake"
+  "CMakeFiles/3.5.1/CMakeCXXCompiler.cmake"
+  "CMakeFiles/3.5.1/CMakeSystem.cmake"
+  "/usr/local/share/OpenCV/OpenCVConfig-version.cmake"
+  "/usr/local/share/OpenCV/OpenCVConfig.cmake"
+  "/usr/local/share/OpenCV/OpenCVModules-release.cmake"
+  "/usr/local/share/OpenCV/OpenCVModules.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeCInformation.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeCXXInformation.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeCommonLanguageInclude.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeGenericSystem.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeLanguageInformation.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeSystemSpecificInformation.cmake"
+  "/usr/share/cmake-3.5/Modules/CMakeSystemSpecificInitialize.cmake"
+  "/usr/share/cmake-3.5/Modules/CheckCXXCompilerFlag.cmake"
+  "/usr/share/cmake-3.5/Modules/CheckCXXSourceCompiles.cmake"
+  "/usr/share/cmake-3.5/Modules/Compiler/GNU-C.cmake"
+  "/usr/share/cmake-3.5/Modules/Compiler/GNU-CXX.cmake"
+  "/usr/share/cmake-3.5/Modules/Compiler/GNU.cmake"
+  "/usr/share/cmake-3.5/Modules/Platform/Linux-GNU-C.cmake"
+  "/usr/share/cmake-3.5/Modules/Platform/Linux-GNU-CXX.cmake"
+  "/usr/share/cmake-3.5/Modules/Platform/Linux-GNU.cmake"
+  "/usr/share/cmake-3.5/Modules/Platform/Linux.cmake"
+  "/usr/share/cmake-3.5/Modules/Platform/UnixPaths.cmake"
+>>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
   )
 
 # The corresponding makefile is:
@@ -39,11 +67,9 @@ SET(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 SET(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "source/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 SET(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/realsense-grabbox.dir/DependInfo.cmake"
-  "source/CMakeFiles/source_lib.dir/DependInfo.cmake"
   )
