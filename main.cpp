@@ -2,6 +2,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include "realsense.h"
+#include <string>
 
 using namespace std;
 using namespace cv;
@@ -13,6 +14,55 @@ extern intrinsics _depth_intrin;
 extern intrinsics _color_intrin;
 extern bool _loop;
 
+char window_name[30] = "HSV Segmentation";
+Mat src;
+
+static void onMouse(int event, int x, int y, int f, void *)
+{
+    Mat image = src.clone();
+    Vec3b rgb = image.at<Vec3b>(y, x);
+    int B = rgb.val[0];
+    int G = rgb.val[1];
+    int R = rgb.val[2];
+
+    Mat HSV;
+    Mat RGB = image(Rect(x, y, 1, 1));
+    cvtColor(RGB, HSV, CV_BGR2HSV);
+
+    Vec3b hsv = HSV.at<Vec3b>(0, 0);
+    int H = hsv.val[0];
+    int S = hsv.val[1];
+    int V = hsv.val[2];
+
+    char name[30];
+    sprintf(name, "R=%d", R);
+    putText(image, name, Point(150, 40), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "G=%d", G);
+    putText(image, name, Point(150, 80), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "B=%d", B);
+    putText(image, name, Point(150, 120), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "H=%d", H);
+    putText(image, name, Point(25, 40), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "S=%d", S);
+    putText(image, name, Point(25, 80), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "V=%d", V);
+    putText(image, name, Point(25, 120), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "X=%d", x);
+    putText(image, name, Point(25, 300), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 0, 255), 2, 8, false);
+
+    sprintf(name, "Y=%d", y);
+    putText(image, name, Point(25, 340), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 0, 255), 2, 8, false);
+
+    //imwrite("hsv.jpg",image);
+    // imshow(WINDOW_RGB, image);
+}
+int num = 1;
 /////////////////////////////////////////////////////////////////////////////
 // Main function
 /////////////////////////////////////////////////////////////////////////////
@@ -27,9 +77,9 @@ int main() try
         return EXIT_FAILURE;
     }
 
-    setup_windows();
-    RS_OPTION_R200_EMITTER_ENABLED;
-    RS_OPTION_R200_LR_AUTO_EXPOSURE_ENABLED;
+    // setup_windows();
+    //RS_OPTION_R200_EMITTER_ENABLED;
+    //RS_OPTION_R200_LR_AUTO_EXPOSURE_ENABLED;
     // Loop until someone left clicks on either of the images in either window.
     while (_loop)
     {
@@ -40,7 +90,6 @@ int main() try
         // Get current frames intrinsic data.
         _depth_intrin = _rs_camera->get_stream_intrinsics(rs::stream::depth);
         _color_intrin = _rs_camera->get_stream_intrinsics(rs::stream::color);
-
         // Create depth image
         cv::Mat depth16(_depth_intrin.height, _depth_intrin.width, CV_16U, (uchar *)_rs_camera->get_frame_data(rs::stream::depth));
 
@@ -54,26 +103,41 @@ int main() try
         cv::Mat depth8u = depth16;
         depth8u.convertTo(depth8u, CV_8UC1, 255.0 / 1000);
 
-        imshow(WINDOW_DEPTH, depth8u);
-        cvWaitKey(1);
+        // imshow(WINDOW_DEPTH, depth8u);
+        // cvWaitKey(1);
 
         cv::cvtColor(rgb, rgb, cv::COLOR_BGR2RGB);
-        imshow(WINDOW_RGB, rgb);
+        src = rgb;
+        int key = waitKey(1);
+
+        if ((char)key == 'S' || (char)key == 's')
+        {
+            cout << "ok" << endl;
+            char file[100];
+            //string file="lena";
+            sprintf(file, "%u.bmp", num);
+            imwrite(file, rgb);
+            key = 0;
+            num++;
+        }
+
+        // setMouseCallback(WINDOW_RGB, onMouse, 0);
+        imshow("WINDOW_RGB", rgb);
         cvWaitKey(1);
 
-        cv::cvtColor(depth16_rgb, depth16_rgb, cv::COLOR_BGR2RGB);
-        imshow(WINDOW_DEPTH_RGB, depth16_rgb);
-        cvWaitKey(1);
+        // cv::cvtColor(depth16_rgb, depth16_rgb, cv::COLOR_BGR2RGB);
+        // imshow(WINDOW_DEPTH_RGB, depth16_rgb);
+        // cvWaitKey(1);
 
         // detectSquareBox();
         // cout << getDistance(_rs_camera, 200, 200) << endl;
-        pair<Mat, float> distanceMatrixResult;
-        distanceMatrixResult = getDistanceMatrix(_rs_camera);
-        Mat distanceMatrix = distanceMatrixResult.first;
-        imwrite("depth.png", distanceMatrix);
-        float scale = distanceMatrixResult.second;
-        cout << distanceMatrix.at<uint16_t>(200, 200) * scale << endl;
-        detectSquareBox(rgb, distanceMatrix);
+        // pair<Mat, float> distanceMatrixResult;
+        // distanceMatrixResult = getDistanceMatrix(_rs_camera);
+        // Mat distanceMatrix = distanceMatrixResult.first;
+        // imwrite("depth.png", distanceMatrix);
+        // float scale = distanceMatrixResult.second;
+        // cout << distanceMatrix.at<uint16_t>(200, 200) * scale << endl;
+        // detectSquareBox(rgb, distanceMatrix);
     }
 
     _rs_camera->stop();
@@ -81,7 +145,6 @@ int main() try
 
     return EXIT_SUCCESS;
 }
-
 
 catch (const rs::error &e)
 {
