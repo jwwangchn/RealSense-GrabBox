@@ -1,6 +1,7 @@
 #ifndef GA_H
 #define GA_H
 
+#include <cmath>
 #include <librealsense/rs.hpp>
 #include <opencv2/opencv.hpp>
 
@@ -51,5 +52,6 @@ void detectSquareBox(Mat srcImage, Mat distanceMatrix);
 static void onMouse(int event, int x, int y, int, void *window_name);
 Mat realSenseSmooth(Mat i_depth);
 Mat realSenseSmooth_uint16(Mat i_depth);
+float angle = getAngle(Mat image, float scale, int y);
 
 #endif

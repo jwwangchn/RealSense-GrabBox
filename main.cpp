@@ -147,6 +147,7 @@ int main() try
 
         Mat smoothDepth = realSenseSmooth(distanceMatrixDisplay);
         imshow("smooth", smoothDepth);
+        cout << "angle: " << getAngle(distanceMatrix, scale, 240) << endl;
         //detectSquareBox(rgb, distanceMatrix);
     }
 

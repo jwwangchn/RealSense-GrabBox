@@ -13,25 +13,23 @@ bool _loop = true;
 int IMAGE_HEIGHT;
 int IMAGE_WIDTH;
 
-
 // Initialize the application state. Upon success will return the static app_state vars address
 bool initialize_streaming()
 {
-    bool success = false;
-    if (_rs_ctx.get_device_count() > 0)
-    {
-        _rs_camera = _rs_ctx.get_device(0);
+	bool success = false;
+	if (_rs_ctx.get_device_count() > 0)
+	{
+		_rs_camera = _rs_ctx.get_device(0);
 
-        _rs_camera->enable_stream(rs::stream::color, INPUT_WIDTH, INPUT_HEIGHT, rs::format::rgb8, FRAMERATE);
-        _rs_camera->enable_stream(rs::stream::depth, INPUT_WIDTH, INPUT_HEIGHT, rs::format::z16, FRAMERATE);
+		_rs_camera->enable_stream(rs::stream::color, INPUT_WIDTH, INPUT_HEIGHT, rs::format::rgb8, FRAMERATE);
+		_rs_camera->enable_stream(rs::stream::depth, INPUT_WIDTH, INPUT_HEIGHT, rs::format::z16, FRAMERATE);
 
-        _rs_camera->start();
+		_rs_camera->start();
 
-        success = true;
-    }
-    return success;
+		success = true;
+	}
+	return success;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // Create the depth and RGB windows, set their mouse callbacks.
@@ -40,13 +38,13 @@ bool initialize_streaming()
 /////////////////////////////////////////////////////////////////////////////
 void setup_windows()
 {
-    cv::namedWindow(WINDOW_DEPTH, WINDOW_AUTOSIZE);
-    cv::namedWindow(WINDOW_RGB, WINDOW_AUTOSIZE);
-    cv::namedWindow(WINDOW_DEPTH_RGB, WINDOW_AUTOSIZE);
+	cv::namedWindow(WINDOW_DEPTH, WINDOW_AUTOSIZE);
+	cv::namedWindow(WINDOW_RGB, WINDOW_AUTOSIZE);
+	cv::namedWindow(WINDOW_DEPTH_RGB, WINDOW_AUTOSIZE);
 
-    cv::setMouseCallback(WINDOW_DEPTH, onMouse, WINDOW_DEPTH);
-    cv::setMouseCallback(WINDOW_RGB, onMouse, WINDOW_RGB);
-    cv::setMouseCallback(WINDOW_DEPTH_RGB, onMouse, WINDOW_RGB);
+	cv::setMouseCallback(WINDOW_DEPTH, onMouse, WINDOW_DEPTH);
+	cv::setMouseCallback(WINDOW_RGB, onMouse, WINDOW_RGB);
+	cv::setMouseCallback(WINDOW_DEPTH_RGB, onMouse, WINDOW_RGB);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -54,34 +52,34 @@ void setup_windows()
 /////////////////////////////////////////////////////////////////////////////
 bool display_next_frame()
 {
-    // Get current frames intrinsic data.
-    _depth_intrin = _rs_camera->get_stream_intrinsics(rs::stream::depth);
-    _color_intrin = _rs_camera->get_stream_intrinsics(rs::stream::color);
+	// Get current frames intrinsic data.
+	_depth_intrin = _rs_camera->get_stream_intrinsics(rs::stream::depth);
+	_color_intrin = _rs_camera->get_stream_intrinsics(rs::stream::color);
 
-    // Create depth image
-    cv::Mat depth16(_depth_intrin.height, _depth_intrin.width, CV_16U, (uchar *)_rs_camera->get_frame_data(rs::stream::depth));
+	// Create depth image
+	cv::Mat depth16(_depth_intrin.height, _depth_intrin.width, CV_16U, (uchar *)_rs_camera->get_frame_data(rs::stream::depth));
 
-    // Create color image
-    cv::Mat rgb(_color_intrin.height, _color_intrin.width, CV_8UC3, (uchar *)_rs_camera->get_frame_data(rs::stream::color));
+	// Create color image
+	cv::Mat rgb(_color_intrin.height, _color_intrin.width, CV_8UC3, (uchar *)_rs_camera->get_frame_data(rs::stream::color));
 
-    // Create color and depth image
-    cv::Mat depth16_rgb(_color_intrin.height, _color_intrin.width, CV_8UC3, (uchar *)_rs_camera->get_frame_data(rs::stream::color_aligned_to_depth));
+	// Create color and depth image
+	cv::Mat depth16_rgb(_color_intrin.height, _color_intrin.width, CV_8UC3, (uchar *)_rs_camera->get_frame_data(rs::stream::color_aligned_to_depth));
 
-    // < 800
-    cv::Mat depth8u = depth16;
-    depth8u.convertTo(depth8u, CV_8UC1, 255.0 / 1000);
+	// < 800
+	cv::Mat depth8u = depth16;
+	depth8u.convertTo(depth8u, CV_8UC1, 255.0 / 1000);
 
-    imshow(WINDOW_DEPTH, depth8u);
-    cvWaitKey(1);
+	imshow(WINDOW_DEPTH, depth8u);
+	cvWaitKey(1);
 
-    cv::cvtColor(rgb, rgb, cv::COLOR_BGR2RGB);
-    imshow(WINDOW_RGB, rgb);
-    cvWaitKey(1);
+	cv::cvtColor(rgb, rgb, cv::COLOR_BGR2RGB);
+	imshow(WINDOW_RGB, rgb);
+	cvWaitKey(1);
 
-    cv::cvtColor(depth16_rgb, depth16_rgb, cv::COLOR_BGR2RGB);
-    imshow(WINDOW_DEPTH_RGB, depth16_rgb);
-    cvWaitKey(1);
-    return true;
+	cv::cvtColor(depth16_rgb, depth16_rgb, cv::COLOR_BGR2RGB);
+	imshow(WINDOW_DEPTH_RGB, depth16_rgb);
+	cvWaitKey(1);
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -89,32 +87,32 @@ bool display_next_frame()
 /////////////////////////////////////////////////////////////////////////////
 float getDistance(rs::device *dev, int x, int y)
 {
-    uint16_t *depthImage = (uint16_t *)dev->get_frame_data(rs::stream::depth);
-    float scale = dev->get_depth_scale();
-    rs::intrinsics depthIntrin = dev->get_stream_intrinsics(rs::stream::depth);
-    uint16_t depthValue = depthImage[y * depthIntrin.width + x];
-    cv::Mat depthValueMat = cv::Mat(depthIntrin.height, depthIntrin.width, CV_16U, depthImage);
-    cv::Mat opened;
-    cv::Mat element(5, 5, CV_8U, cv::Scalar(1));
-    cv::morphologyEx(depthValueMat, opened, cv::MORPH_OPEN, element, cv::Point(-1, -1), 1);
-    imshow("opened", opened * 100);
-    cvWaitKey(1);
-    float depthInMeters = depthValue * scale;
-    return depthInMeters;
+	uint16_t *depthImage = (uint16_t *)dev->get_frame_data(rs::stream::depth);
+	float scale = dev->get_depth_scale();
+	rs::intrinsics depthIntrin = dev->get_stream_intrinsics(rs::stream::depth);
+	uint16_t depthValue = depthImage[y * depthIntrin.width + x];
+	cv::Mat depthValueMat = cv::Mat(depthIntrin.height, depthIntrin.width, CV_16U, depthImage);
+	cv::Mat opened;
+	cv::Mat element(5, 5, CV_8U, cv::Scalar(1));
+	cv::morphologyEx(depthValueMat, opened, cv::MORPH_OPEN, element, cv::Point(-1, -1), 1);
+	imshow("opened", opened * 100);
+	cvWaitKey(1);
+	float depthInMeters = depthValue * scale;
+	return depthInMeters;
 }
 
 pair<Mat, float> getDistanceMatrix(rs::device *dev)
 {
-    uint16_t *depthImage = (uint16_t *)dev->get_frame_data(rs::stream::depth);
-    float scale = dev->get_depth_scale();
-    rs::intrinsics depthIntrin = dev->get_stream_intrinsics(rs::stream::depth);
-    cv::Mat depthValueMat = cv::Mat(depthIntrin.height, depthIntrin.width, CV_16U, depthImage);
+	uint16_t *depthImage = (uint16_t *)dev->get_frame_data(rs::stream::depth);
+	float scale = dev->get_depth_scale();
+	rs::intrinsics depthIntrin = dev->get_stream_intrinsics(rs::stream::depth);
+	cv::Mat depthValueMat = cv::Mat(depthIntrin.height, depthIntrin.width, CV_16U, depthImage);
 
-    pair<Mat, float> result;
-    result.first = depthValueMat;
-    result.second = scale;
-    // Mat depthValueFloat = (float)(depthValueMat * scale);
-    return result;
+	pair<Mat, float> result;
+	result.first = depthValueMat;
+	result.second = scale;
+	// Mat depthValueFloat = (float)(depthValueMat * scale);
+	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -122,62 +120,62 @@ pair<Mat, float> getDistanceMatrix(rs::device *dev)
 /////////////////////////////////////////////////////////////////////////////
 void detectSquareBox(Mat srcImage, Mat distanceMatrix)
 {
-    int rowNum = distanceMatrix.rows;
-    int colNum = distanceMatrix.cols;
+	int rowNum = distanceMatrix.rows;
+	int colNum = distanceMatrix.cols;
 
-    int blackPixel[rowNum];
-    int lineAxis[rowNum];
-    bool lineFlag = false;
-    vector<Point2f> points;
-    Vec4f verticalLine;
-    points.clear();
-    //从下网上扫描
-    for (int row = rowNum - 1; row >= 50; row--)
-    {
-        //黑色像素
-        blackPixel[row] = 0;
-        //从左往右扫描
-        for (int col = 0; col < colNum - 1; col++)
-        {
-            //检测相邻两个元素的像素值
-            int pixelValueNow = distanceMatrix.at<uint16_t>(row, col);
-            int pixelValueNext = distanceMatrix.at<uint16_t>(row, col + 1);
+	int blackPixel[rowNum];
+	int lineAxis[rowNum];
+	bool lineFlag = false;
+	vector<Point2f> points;
+	Vec4f verticalLine;
+	points.clear();
+	//从下网上扫描
+	for (int row = rowNum - 1; row >= 50; row--)
+	{
+		//黑色像素
+		blackPixel[row] = 0;
+		//从左往右扫描
+		for (int col = 0; col < colNum - 1; col++)
+		{
+			//检测相邻两个元素的像素值
+			int pixelValueNow = distanceMatrix.at<uint16_t>(row, col);
+			int pixelValueNext = distanceMatrix.at<uint16_t>(row, col + 1);
 
-            //如果当前像素为盒子所在像素
-            if (pixelValueNow > 400 && pixelValueNow < 700)
-            {
-                //黑色像素计数加一
-                blackPixel[row]++;
-                //如果黑色像素数量大于某个值，同时下一个像素值为白色像素，认为出现线段
-                if (blackPixel[row] > 10 && pixelValueNext > 700)
-                {
-                    //出现线段
-                    lineFlag = true;
-                    //计算中心位置
-                    lineAxis[row] = (col + col - blackPixel[row]) / 2;
-                    //存储当前行的中心像素位置
-                    points.push_back(Point2f(lineAxis[row], row));
-                    //cout << lineAxis << endl;
-                    break;
-                }
-            }
-            else
-            {
-                lineFlag = false;
-                blackPixel[row] = 0;
-            }
-        }
-    }
-    if (points.size() > 5)
-    {
-        fitLine(Mat(points), verticalLine, CV_DIST_L1, 0, 0.01, 0.01);
-    }
+			//如果当前像素为盒子所在像素
+			if (pixelValueNow > 400 && pixelValueNow < 700)
+			{
+				//黑色像素计数加一
+				blackPixel[row]++;
+				//如果黑色像素数量大于某个值，同时下一个像素值为白色像素，认为出现线段
+				if (blackPixel[row] > 10 && pixelValueNext > 700)
+				{
+					//出现线段
+					lineFlag = true;
+					//计算中心位置
+					lineAxis[row] = (col + col - blackPixel[row]) / 2;
+					//存储当前行的中心像素位置
+					points.push_back(Point2f(lineAxis[row], row));
+					//cout << lineAxis << endl;
+					break;
+				}
+			}
+			else
+			{
+				lineFlag = false;
+				blackPixel[row] = 0;
+			}
+		}
+	}
+	if (points.size() > 5)
+	{
+		fitLine(Mat(points), verticalLine, CV_DIST_L1, 0, 0.01, 0.01);
+	}
 
-    double k = verticalLine[1] / verticalLine[0];
-    double step = 100;
-    cv::line(srcImage, cvPoint(verticalLine[2] - step, verticalLine[3] - k * step), cvPoint(verticalLine[2] + step, k * step + verticalLine[3]), Scalar(0, 0, 255), 5);
-    imshow("dstImage", srcImage);
-    //cout << "是否检测到盒子: " << lineFlag << endl;
+	double k = verticalLine[1] / verticalLine[0];
+	double step = 100;
+	cv::line(srcImage, cvPoint(verticalLine[2] - step, verticalLine[3] - k * step), cvPoint(verticalLine[2] + step, k * step + verticalLine[3]), Scalar(0, 0, 255), 5);
+	imshow("dstImage", srcImage);
+	//cout << "是否检测到盒子: " << lineFlag << endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -185,42 +183,38 @@ void detectSquareBox(Mat srcImage, Mat distanceMatrix)
 /////////////////////////////////////////////////////////////////////////////
 static void onMouse(int event, int x, int y, int, void *window_name)
 {
-    if (event == cv::EVENT_LBUTTONDOWN)
-    {
-        _loop = false;
-    }
+	if (event == cv::EVENT_LBUTTONDOWN)
+	{
+		_loop = false;
+	}
 }
-
-
-
 
 Mat realSenseSmooth(Mat i_depth)
 {
 	//cout << "INNER_NUMBER: " << INNER_NUMBER << " OUTER_NUMBER: " << OUTER_NUMBER << endl;
 	double minv = 0.0, maxv = 0.0;
-    double* minp = &minv;
-    double* maxp = &maxv;
+	double *minp = &minv;
+	double *maxp = &maxv;
 
-    minMaxIdx(i_depth,minp,maxp);
+	minMaxIdx(i_depth, minp, maxp);
 
-    // cout << "Mat minv = " << minv << endl;
-    // cout << "Mat maxv = " << maxv << endl;
-//    Size size(512,424);
-//    resize(i_depth,i_depth,size);
+	// cout << "Mat minv = " << minv << endl;
+	// cout << "Mat maxv = " << maxv << endl;
+	//    Size size(512,424);
+	//    resize(i_depth,i_depth,size);
 
 	IMAGE_HEIGHT = i_depth.rows;
 	IMAGE_WIDTH = i_depth.cols;
 
-    // cout << IMAGE_WIDTH << " " << IMAGE_HEIGHT<<endl;
+	// cout << IMAGE_WIDTH << " " << IMAGE_HEIGHT<<endl;
 
-	Mat i_before(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);  // 为了显示方便
-	Mat i_after(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);   // 为了显示方便
+	Mat i_before(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4); // 为了显示方便
+	Mat i_after(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);  // 为了显示方便
 	Mat i_result(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC1); // 滤波结果
 
-    unsigned int maxDepth = 0;
+	unsigned int maxDepth = 0;
 	//	uint16_t* depthArray = (uint16_t*)i_depth.data;
 	unsigned char depthArray[IMAGE_HEIGHT * IMAGE_WIDTH];
-
 
 	unsigned int iZeroCountBefore = 0;
 	unsigned int iZeroCountAfter = 0;
@@ -279,7 +273,7 @@ Mat realSenseSmooth(Mat i_depth)
 
 				// filter collection 用来计算滤波器内每个深度值对应的频度，在后面
 				// 我们将通过这个数值来确定给候选像素一个什么深度值。
-				unsigned char filterCollection[WINDOWS_SIZE*WINDOWS_SIZE - 1][2] = {0};
+				unsigned char filterCollection[WINDOWS_SIZE * WINDOWS_SIZE - 1][2] = {0};
 
 				// 内外层框内非零像素数量计数器，在后面用来确定候选像素是否滤波
 				int innerBandCount = 0;
@@ -406,29 +400,28 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 {
 	//cout << "INNER_NUMBER: " << INNER_NUMBER << " OUTER_NUMBER: " << OUTER_NUMBER << endl;
 	double minv = 0.0, maxv = 0.0;
-    double* minp = &minv;
-    double* maxp = &maxv;
+	double *minp = &minv;
+	double *maxp = &maxv;
 
-    minMaxIdx(i_depth,minp,maxp);
+	minMaxIdx(i_depth, minp, maxp);
 
-    // cout << "Mat minv = " << minv << endl;
-    // cout << "Mat maxv = " << maxv << endl;
-//    Size size(512,424);
-//    resize(i_depth,i_depth,size);
+	// cout << "Mat minv = " << minv << endl;
+	// cout << "Mat maxv = " << maxv << endl;
+	//    Size size(512,424);
+	//    resize(i_depth,i_depth,size);
 
 	IMAGE_HEIGHT = i_depth.rows;
 	IMAGE_WIDTH = i_depth.cols;
 
-    // cout << IMAGE_WIDTH << " " << IMAGE_HEIGHT<<endl;
+	// cout << IMAGE_WIDTH << " " << IMAGE_HEIGHT<<endl;
 
 	Mat i_before(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);  // 为了显示方便
 	Mat i_after(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);   // 为了显示方便
 	Mat i_result(IMAGE_HEIGHT, IMAGE_WIDTH, CV_16UC1); // 滤波结果
 
-    unsigned int maxDepth = 0;
+	unsigned int maxDepth = 0;
 	//	uint16_t* depthArray = (uint16_t*)i_depth.data;
 	uint16_t depthArray[IMAGE_HEIGHT * IMAGE_WIDTH];
-
 
 	unsigned int iZeroCountBefore = 0;
 	unsigned int iZeroCountAfter = 0;
@@ -487,7 +480,7 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 
 				// filter collection 用来计算滤波器内每个深度值对应的频度，在后面
 				// 我们将通过这个数值来确定给候选像素一个什么深度值。
-				uint16_t filterCollection[WINDOWS_SIZE*WINDOWS_SIZE - 1][2] = {0};
+				uint16_t filterCollection[WINDOWS_SIZE * WINDOWS_SIZE - 1][2] = {0};
 
 				// 内外层框内非零像素数量计数器，在后面用来确定候选像素是否滤波
 				int innerBandCount = 0;
@@ -608,4 +601,50 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 	// cout << "iZeroCountBefore:    " << iZeroCountBefore << "  depthArray[0]:  " << depthArray[0] << endl;
 	// cout << "iZeroCountAfter:    " << iZeroCountAfter << "  smoothDepthArray[0]:  " << smoothDepthArray[0] << endl;
 	return i_result;
+}
+
+float angle = getAngle(Mat image, float scale, int y)
+{
+#define RANGE_DISTANCE 5
+	// 用于求某一点的距离, 用一个范围内的平均值
+	int lengthDistanceLeft = 20;
+	int lengthDistanceRight = 20;
+	int center = 320;
+	float angle = 0;
+	uint16_t diatanceLeftMatrix[RANGE_DISTANCE][RANGE_DISTANCE] = {0};
+	uint16_t diatanceRightMatrix[RANGE_DISTANCE][RANGE_DISTANCE] = {0};
+	for (int i = -(RANGE_DISTANCE / 2); i < RANGE_DISTANCE / 2 + 1; i++)
+	{
+		for (int j = -(RANGE_DISTANCE / 2); j < RANGE_DISTANCE / 2 + 1; j++)
+		{
+			diatanceLeftMatrix[i][j] = distanceMatrix.at<uint16_t>(y - i, center - lengthDistanceLeft - j);
+			diatanceRightMatrix[i][j] = distanceMatrix.at<uint16_t>(y - i, center + lengthDistanceRight - j);
+		}
+	}
+	float sumLeft = 0, sumRight = 0;
+	int countLeft = 0, countRight = 0;
+	for (i = 0; i < RANGE_DISTANCE; i++)
+	{
+		for (int j = 0; j < RANGE_DISTANCE; j++)
+		{
+			sumLeft = sumLeft + diatanceLeftMatrix[i][j];
+			sumRight = sumRight + diatanceRightMatrix[i][j];
+			if (diatanceLeftMatrix[i][j] != 0)
+			{
+				countLeft++;
+			}
+			if (diatanceRightMatrix[i][j] != 0)
+			{
+				countRight++;
+			}
+		}
+	}
+	float cameraDistance = 0.02;
+	float distanceLeftRight = 0.02*(/40.0/640.0);
+	float averageLeft = sumLeft / countLeft;
+	float averageRight = sumRight / countRight;
+	angle = atan(abs(averageLeft - averageRight)/distanceLeftRight) * 180.0/3.1415;
+
+
+	return angle;
 }
