@@ -135,12 +135,12 @@ int main() try
         distanceMatrixResult = getDistanceMatrix(_rs_camera);
         Mat distanceMatrix = distanceMatrixResult.first;
         
-        imwrite("depth.png", depth8u);
+        // imwrite("depth.png", depth8u);
         float scale = distanceMatrixResult.second;
-        distanceMatrix.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);     
-        distanceMatrix = realSenseSmooth(distanceMatrix);
+        // distanceMatrix.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);     
+        distanceMatrix = realSenseSmooth_uint16(distanceMatrix);
         cout << "距离: " << distanceMatrix.at<uint8_t>(366, 215) * scale << endl;
-        Mat smoothDepth = realScenseSmooth(depth8u);
+        Mat smoothDepth = realSenseSmooth(depth8u);
         imshow("smooth", smoothDepth);
         //detectSquareBox(rgb, distanceMatrix);
     }
