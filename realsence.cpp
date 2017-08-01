@@ -218,7 +218,7 @@ Mat realSenseSmooth(Mat i_depth)
 	Mat i_result(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC1); // 滤波结果
 
     unsigned int maxDepth = 0;
-	//	unsigned short* depthArray = (unsigned short*)i_depth.data;
+	//	uint16_t* depthArray = (uint16_t*)i_depth.data;
 	unsigned char depthArray[IMAGE_HEIGHT * IMAGE_WIDTH];
 
 
@@ -230,7 +230,7 @@ Mat realSenseSmooth(Mat i_depth)
 		int col = i % IMAGE_WIDTH;
 		depthArray[i] = i_depth.at<uint8_t>(row, col);
 		unsigned char depthValue = depthArray[i];
-		//        unsigned short depthValue = depthArray[row * IMAGE_WIDTH + col];
+		//        uint16_t depthValue = depthArray[row * IMAGE_WIDTH + col];
 		// if (depthValue == 0)
 		// {
 		// 	i_before.data[i * 4] = 255;
@@ -426,8 +426,8 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 	Mat i_result(IMAGE_HEIGHT, IMAGE_WIDTH, CV_16UC1); // 滤波结果
 
     unsigned int maxDepth = 0;
-	//	unsigned short* depthArray = (unsigned short*)i_depth.data;
-	unsigned short depthArray[IMAGE_HEIGHT * IMAGE_WIDTH];
+	//	uint16_t* depthArray = (uint16_t*)i_depth.data;
+	uint16_t depthArray[IMAGE_HEIGHT * IMAGE_WIDTH];
 
 
 	unsigned int iZeroCountBefore = 0;
@@ -436,9 +436,9 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 	{
 		int row = i / IMAGE_WIDTH;
 		int col = i % IMAGE_WIDTH;
-		depthArray[i] = i_depth.at<uint8_t>(row, col);
-		unsigned short depthValue = depthArray[i];
-		//        unsigned short depthValue = depthArray[row * IMAGE_WIDTH + col];
+		depthArray[i] = i_depth.at<uint16_t>(row, col);
+		uint16_t depthValue = depthArray[i];
+		//        uint16_t depthValue = depthArray[row * IMAGE_WIDTH + col];
 		// if (depthValue == 0)
 		// {
 		// 	i_before.data[i * 4] = 255;
@@ -461,7 +461,7 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 	// 2. 像素滤波
 
 	// 滤波后深度图的缓存
-	unsigned short *smoothDepthArray = (unsigned short *)i_result.data;
+	uint16_t *smoothDepthArray = (uint16_t *)i_result.data;
 	// 我们用这两个值来确定索引在正确的范围内
 	int widthBound = IMAGE_WIDTH - 1;
 	int heightBound = IMAGE_HEIGHT - 1;
@@ -487,7 +487,7 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 
 				// filter collection 用来计算滤波器内每个深度值对应的频度，在后面
 				// 我们将通过这个数值来确定给候选像素一个什么深度值。
-				unsigned short filterCollection[WINDOWS_SIZE*WINDOWS_SIZE - 1][2] = {0};
+				uint16_t filterCollection[WINDOWS_SIZE*WINDOWS_SIZE - 1][2] = {0};
 
 				// 内外层框内非零像素数量计数器，在后面用来确定候选像素是否滤波
 				int innerBandCount = 0;
@@ -588,7 +588,7 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 		int row = i / IMAGE_WIDTH;
 		int col = i % IMAGE_WIDTH;
 
-		unsigned short depthValue = smoothDepthArray[row * IMAGE_WIDTH + col];
+		uint16_t depthValue = smoothDepthArray[row * IMAGE_WIDTH + col];
 		// if (depthValue == 0)
 		// {
 		// 	i_after.data[i * 4] = 255;
