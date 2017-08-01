@@ -644,7 +644,7 @@ float getAngle(Mat distanceMatrix, float scale, int y)
 		return 0;
 	}
 	float cameraDistance = 0.02;
-	float distanceLeftRight = 0.02 * (40.0 / 640.0);
+	float distanceLeftRight = 0.2;
 	float averageLeft = sumLeft / countLeft * scale;
 	float averageRight = sumRight / countRight * scale;
 	angle = atan(abs(averageLeft - averageRight) / distanceLeftRight) * 180.0 / 3.1415;
