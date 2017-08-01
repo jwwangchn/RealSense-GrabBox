@@ -603,7 +603,7 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 	return i_result;
 }
 
-float angle = getAngle(Mat image, float scale, int y)
+float getAngle(Mat distanceMatrix, float scale, int y)
 {
 #define RANGE_DISTANCE 5
 	// 用于求某一点的距离, 用一个范围内的平均值
@@ -623,7 +623,7 @@ float angle = getAngle(Mat image, float scale, int y)
 	}
 	float sumLeft = 0, sumRight = 0;
 	int countLeft = 0, countRight = 0;
-	for (i = 0; i < RANGE_DISTANCE; i++)
+	for (int i = 0; i < RANGE_DISTANCE; i++)
 	{
 		for (int j = 0; j < RANGE_DISTANCE; j++)
 		{
@@ -640,11 +640,9 @@ float angle = getAngle(Mat image, float scale, int y)
 		}
 	}
 	float cameraDistance = 0.02;
-	float distanceLeftRight = 0.02*(/40.0/640.0);
-	float averageLeft = sumLeft / countLeft;
-	float averageRight = sumRight / countRight;
+	float distanceLeftRight = 0.02*(40.0/640.0);
+	float averageLeft = sumLeft / countLeft * scale;
+	float averageRight = sumRight / countRight * scale;
 	angle = atan(abs(averageLeft - averageRight)/distanceLeftRight) * 180.0/3.1415;
-
-
 	return angle;
 }
