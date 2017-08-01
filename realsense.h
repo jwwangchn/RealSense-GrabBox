@@ -50,5 +50,6 @@ pair<Mat, float> getDistanceMatrix(rs::device *dev);
 void detectSquareBox(Mat srcImage, Mat distanceMatrix);
 static void onMouse(int event, int x, int y, int, void *window_name);
 Mat realSenseSmooth(Mat i_depth);
+Mat realSenseSmooth_uint16(Mat i_depth);
 
 #endif
