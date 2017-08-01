@@ -617,8 +617,8 @@ float getAngle(Mat distanceMatrix, float scale, int y)
 	{
 		for (int j = -(RANGE_DISTANCE / 2); j < RANGE_DISTANCE / 2 + 1; j++)
 		{
-			diatanceLeftMatrix[i][j] = distanceMatrix.at<uint16_t>(y - i, center - lengthDistanceLeft - j);
-			diatanceRightMatrix[i][j] = distanceMatrix.at<uint16_t>(y - i, center + lengthDistanceRight - j);
+			diatanceLeftMatrix[i + (RANGE_DISTANCE / 2)][j + (RANGE_DISTANCE / 2)] = distanceMatrix.at<uint16_t>(y - i, center - lengthDistanceLeft - j);
+			diatanceRightMatrix[i + (RANGE_DISTANCE / 2)][j + (RANGE_DISTANCE / 2)] = distanceMatrix.at<uint16_t>(y - i, center + lengthDistanceRight - j);
 		}
 	}
 	float sumLeft = 0, sumRight = 0;
