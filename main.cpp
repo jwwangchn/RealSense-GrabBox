@@ -143,7 +143,7 @@ int main() try
         cout << "距离: " << (float)distanceMatrix.at<uint16_t>(479,639) * scale << endl;
         cout << "scale: " << scale << endl;
         Mat distanceMatrixDisplay;
-        distanceMatrixDisplay.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);
+        distanceMatrix.convertTo(distanceMatrixDisplay, CV_8UC1, 255.0 / 1000);
 
         Mat smoothDepth = realSenseSmooth(distanceMatrixDisplay);
         imshow("smooth", smoothDepth);
