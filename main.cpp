@@ -140,7 +140,7 @@ int main() try
         // distanceMatrix.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);     
         distanceMatrix = realSenseSmooth_uint16(distanceMatrix);
         // cout << "距离: " << (float)distanceMatrix.at<uint16_t>(331, 243) * scale << endl;
-        cout << "距离: " << (float)distanceMatrix.at<uint16_t>(479,639) * scale << endl;  // (Y,X)
+        cout << "距离: " << (float)distanceMatrix.at<uint16_t>(240,320) * scale << endl;  // (Y,X)
         cout << "scale: " << scale << endl;
         Mat distanceMatrixDisplay;
         distanceMatrix.convertTo(distanceMatrixDisplay, CV_8UC1, 255.0 / 1000);
