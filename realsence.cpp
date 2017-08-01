@@ -423,7 +423,7 @@ Mat realSenseSmooth_uint16(Mat i_depth)
 
 	Mat i_before(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);  // 为了显示方便
 	Mat i_after(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);   // 为了显示方便
-	Mat i_result(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC1); // 滤波结果
+	Mat i_result(IMAGE_HEIGHT, IMAGE_WIDTH, CV_16UC1); // 滤波结果
 
     unsigned int maxDepth = 0;
 	//	unsigned short* depthArray = (unsigned short*)i_depth.data;

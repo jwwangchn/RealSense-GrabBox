@@ -139,7 +139,7 @@ int main() try
         float scale = distanceMatrixResult.second;
         // distanceMatrix.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);     
         distanceMatrix = realSenseSmooth_uint16(distanceMatrix);
-        cout << "距离: " << distanceMatrix.at<uint8_t>(366, 215) * scale << endl;
+        cout << "距离: " << (float)distanceMatrix.at<uint16_t>(366, 215) * scale << endl;
         Mat smoothDepth = realSenseSmooth(depth8u);
         imshow("smooth", smoothDepth);
         //detectSquareBox(rgb, distanceMatrix);
