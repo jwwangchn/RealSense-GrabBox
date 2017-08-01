@@ -137,9 +137,10 @@ int main() try
         
         imwrite("depth.png", depth8u);
         float scale = distanceMatrixResult.second;
-        distanceMatrix.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);        
-        cout << distanceMatrix.at<uint8_t>(200, 200) * scale << endl;
-        Mat smoothDepth = realSenseSmooth(depth8u);
+        distanceMatrix.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);     
+        distanceMatrix = realSenseSmooth(distanceMatrix);
+        cout << "距离: " << distanceMatrix.at<uint8_t>(366, 215) * scale << endl;
+        Mat smoothDepth = realScenseSmooth(depth8u);
         imshow("smooth", smoothDepth);
         //detectSquareBox(rgb, distanceMatrix);
     }

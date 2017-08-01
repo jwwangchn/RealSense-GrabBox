@@ -177,7 +177,7 @@ void detectSquareBox(Mat srcImage, Mat distanceMatrix)
     double step = 100;
     cv::line(srcImage, cvPoint(verticalLine[2] - step, verticalLine[3] - k * step), cvPoint(verticalLine[2] + step, k * step + verticalLine[3]), Scalar(0, 0, 255), 5);
     imshow("dstImage", srcImage);
-    cout << "是否检测到盒子: " << lineFlag << endl;
+    //cout << "是否检测到盒子: " << lineFlag << endl;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -196,22 +196,22 @@ static void onMouse(int event, int x, int y, int, void *window_name)
 
 Mat realSenseSmooth(Mat i_depth)
 {
-	cout << "INNER_NUMBER: " << INNER_NUMBER << " OUTER_NUMBER: " << OUTER_NUMBER << endl;
+	//cout << "INNER_NUMBER: " << INNER_NUMBER << " OUTER_NUMBER: " << OUTER_NUMBER << endl;
 	double minv = 0.0, maxv = 0.0;
     double* minp = &minv;
     double* maxp = &maxv;
 
     minMaxIdx(i_depth,minp,maxp);
 
-    cout << "Mat minv = " << minv << endl;
-    cout << "Mat maxv = " << maxv << endl;
+    // cout << "Mat minv = " << minv << endl;
+    // cout << "Mat maxv = " << maxv << endl;
 //    Size size(512,424);
 //    resize(i_depth,i_depth,size);
 
 	IMAGE_HEIGHT = i_depth.rows;
 	IMAGE_WIDTH = i_depth.cols;
 
-    cout << IMAGE_WIDTH << " " << IMAGE_HEIGHT<<endl;
+    // cout << IMAGE_WIDTH << " " << IMAGE_HEIGHT<<endl;
 
 	Mat i_before(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);  // 为了显示方便
 	Mat i_after(IMAGE_HEIGHT, IMAGE_WIDTH, CV_8UC4);   // 为了显示方便
@@ -248,7 +248,7 @@ Mat realSenseSmooth(Mat i_depth)
 		// }
 		maxDepth = depthValue > maxDepth ? depthValue : maxDepth;
 	}
-	cout << "max depth value: " << maxDepth << endl;
+	// cout << "max depth value: " << maxDepth << endl;
 
 	// 2. 像素滤波
 
@@ -397,7 +397,7 @@ Mat realSenseSmooth(Mat i_depth)
 		// 	i_after.data[i * 4 + 3] = depthValue / 8000.0f * 256;
 		// }
 	}
-	cout << "iZeroCountBefore:    " << iZeroCountBefore << "  depthArray[0]:  " << depthArray[0] << endl;
-	cout << "iZeroCountAfter:    " << iZeroCountAfter << "  smoothDepthArray[0]:  " << smoothDepthArray[0] << endl;
+	// cout << "iZeroCountBefore:    " << iZeroCountBefore << "  depthArray[0]:  " << depthArray[0] << endl;
+	// cout << "iZeroCountAfter:    " << iZeroCountAfter << "  smoothDepthArray[0]:  " << smoothDepthArray[0] << endl;
 	return i_result;
 }

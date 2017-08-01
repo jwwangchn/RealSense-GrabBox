@@ -9,7 +9,7 @@ using namespace cv;
 using namespace rs;
 
 // 滤波窗口大小 WINDOWS_SIZE - 1 为 4 的倍数
-#define WINDOWS_SIZE 17
+#define WINDOWS_SIZE 13
 
 
 // 内层数量 = (WINDOWS_SIZE / 2 + 1) * (WINDOWS_SIZE / 2 + 1) - 1
