@@ -139,7 +139,6 @@ main.cpp.s:
 .PHONY : main.cpp.s
 
 realsence.o: realsence.cpp.o
-
 .PHONY : realsence.o
 
 # target to build an object file
@@ -148,7 +147,6 @@ realsence.cpp.o:
 .PHONY : realsence.cpp.o
 
 realsence.i: realsence.cpp.i
-
 .PHONY : realsence.i
 
 # target to preprocess a source file
@@ -157,7 +155,6 @@ realsence.cpp.i:
 .PHONY : realsence.cpp.i
 
 realsence.s: realsence.cpp.s
-
 .PHONY : realsence.s
 
 # target to generate assembly for a file
@@ -173,11 +170,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... realsense-grabbox"
-<<<<<<< HEAD
 	@echo "... rebuild_cache"
-	@echo "... source_lib"
-=======
->>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

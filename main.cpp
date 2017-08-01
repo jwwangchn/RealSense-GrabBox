@@ -2,209 +2,67 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include "realsense.h"
+#include <string>
 
 using namespace std;
 using namespace cv;
 using namespace rs;
 
-<<<<<<< HEAD
-// Window size and frame rate
-int const INPUT_WIDTH = 640;
-int const INPUT_HEIGHT = 480;
-int const FRAMERATE = 30;
-
-// Named windows
-char *const WINDOW_DEPTH = "Depth Image";
-char *const WINDOW_RGB = "RGB Image";
-char *const WINDOW_DEPTH_RGB = "DEPTH RGB Image";
-
-context _rs_ctx;
-device *_rs_camera = NULL;
-intrinsics _depth_intrin;
-intrinsics _color_intrin;
-bool _loop = true;
-
-// Initialize the application state. Upon success will return the static app_state vars address
-bool initialize_streaming()
-{
-    bool success = false;
-    if (_rs_ctx.get_device_count() > 0)
-    {
-        _rs_camera = _rs_ctx.get_device(0);
-
-        _rs_camera->enable_stream(rs::stream::color, INPUT_WIDTH, INPUT_HEIGHT, rs::format::rgb8, FRAMERATE);
-        _rs_camera->enable_stream(rs::stream::depth, INPUT_WIDTH, INPUT_HEIGHT, rs::format::z16, FRAMERATE);
-
-        _rs_camera->start();
-
-        success = true;
-    }
-    return success;
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// If the left mouse button was clicked on either image, stop streaming and close windows.
-/////////////////////////////////////////////////////////////////////////////
-static void onMouse(int event, int x, int y, int, void *window_name)
-{
-    if (event == cv::EVENT_LBUTTONDOWN)
-    {
-        _loop = false;
-    }
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// Create the depth and RGB windows, set their mouse callbacks.
-// Required if we want to create a window and have the ability to use it in
-// different functions
-/////////////////////////////////////////////////////////////////////////////
-void setup_windows()
-{
-    cv::namedWindow(WINDOW_DEPTH, WINDOW_AUTOSIZE);
-    cv::namedWindow(WINDOW_RGB, WINDOW_AUTOSIZE);
-    cv::namedWindow(WINDOW_DEPTH_RGB, WINDOW_AUTOSIZE);
-
-    cv::setMouseCallback(WINDOW_DEPTH, onMouse, WINDOW_DEPTH);
-    cv::setMouseCallback(WINDOW_RGB, onMouse, WINDOW_RGB);
-    cv::setMouseCallback(WINDOW_DEPTH_RGB, onMouse, WINDOW_RGB);
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// Called every frame gets the data from streams and displays them using OpenCV.
-/////////////////////////////////////////////////////////////////////////////
-bool display_next_frame()
-{
-    // Get current frames intrinsic data.
-    _depth_intrin = _rs_camera->get_stream_intrinsics(rs::stream::depth);
-    _color_intrin = _rs_camera->get_stream_intrinsics(rs::stream::color);
-
-    // Create depth image
-    cv::Mat depth16(_depth_intrin.height, _depth_intrin.width, CV_16U, (uchar *)_rs_camera->get_frame_data(rs::stream::depth));
-
-    // Create color image
-    cv::Mat rgb(_color_intrin.height, _color_intrin.width, CV_8UC3, (uchar *)_rs_camera->get_frame_data(rs::stream::color));
-
-    // Create color and depth image
-    cv::Mat depth16_rgb(_color_intrin.height, _color_intrin.width, CV_8UC3, (uchar *)_rs_camera->get_frame_data(rs::stream::color_aligned_to_depth));
-
-    // < 800
-    cv::Mat depth8u = depth16;
-    depth8u.convertTo(depth8u, CV_8UC1, 255.0 / 1000);
-
-    imshow(WINDOW_DEPTH, depth8u);
-    cvWaitKey(1);
-
-    cv::cvtColor(rgb, rgb, cv::COLOR_BGR2RGB);
-    imshow(WINDOW_RGB, rgb);
-    cvWaitKey(1);
-
-    cv::cvtColor(depth16_rgb, depth16_rgb, cv::COLOR_BGR2RGB);
-    imshow(WINDOW_DEPTH_RGB, depth16_rgb);
-    cvWaitKey(1);
-    return true;
-}
-/////////////////////////////////////////////////////////////////////////////
-// Get distance function
-/////////////////////////////////////////////////////////////////////////////
-float getDistance(rs::device *dev, int x, int y)
-{
-    uint16_t *depthImage = (uint16_t *)dev->get_frame_data(rs::stream::depth);
-    float scale = dev->get_depth_scale();
-    rs::intrinsics depthIntrin = dev->get_stream_intrinsics(rs::stream::depth);
-    uint16_t depthValue = depthImage[y * depthIntrin.width + x];
-    cv::Mat depthValueMat = cv::Mat(depthIntrin.height, depthIntrin.width, CV_16U, depthImage);
-    cv::Mat opened;
-    cv::Mat element(5, 5, CV_8U, cv::Scalar(1));
-    cv::morphologyEx(depthValueMat, opened, cv::MORPH_OPEN, element, cv::Point(-1, -1), 1);
-    imshow("opened", opened * 100);
-    cvWaitKey(1);
-    float depthInMeters = depthValue * scale;
-    return depthInMeters;
-}
-
-pair<Mat, float> getDistanceMatrix(rs::device *dev)
-{
-    uint16_t *depthImage = (uint16_t *)dev->get_frame_data(rs::stream::depth);
-    float scale = dev->get_depth_scale();
-    rs::intrinsics depthIntrin = dev->get_stream_intrinsics(rs::stream::depth);
-    cv::Mat depthValueMat = cv::Mat(depthIntrin.height, depthIntrin.width, CV_16U, depthImage);
-    pair<Mat, float> result;
-    result.first = depthValueMat;
-    result.second = scale;
-    // Mat depthValueFloat = (float)(depthValueMat * scale);
-    return result;
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// Detect function
-/////////////////////////////////////////////////////////////////////////////
-void detectSquareBox(Mat srcImage, Mat distanceMatrix)
-{
-    int rowNum = distanceMatrix.rows;
-    int colNum = distanceMatrix.cols;
-
-    int blackPixel[rowNum];
-    int lineAxis[rowNum];
-    bool lineFlag = false;
-    vector<Point2f> points;
-    Vec4f verticalLine;
-    points.clear();
-    //从下网上扫描
-    for (int row = rowNum - 1; row >= 50; row--)
-    {
-        //黑色像素
-        blackPixel[row] = 0;
-        //从左往右扫描
-        for (int col = 0; col < colNum - 1; col++)
-        {
-            //检测相邻两个元素的像素值
-            int pixelValueNow = distanceMatrix.at<uint16_t>(row, col);
-            int pixelValueNext = distanceMatrix.at<uint16_t>(row, col + 1);
-
-            //如果当前像素为盒子所在像素
-            if (pixelValueNow > 400 && pixelValueNow < 700)
-            {
-                //黑色像素计数加一
-                blackPixel[row]++;
-                //如果黑色像素数量大于某个值，同时下一个像素值为白色像素，认为出现线段
-                if (blackPixel[row] > 10 && pixelValueNext > 700)
-                {
-                    //出现线段
-                    lineFlag = true;
-                    //计算中心位置
-                    lineAxis[row] = (col + col - blackPixel[row]) / 2;
-                    //存储当前行的中心像素位置
-                    points.push_back(Point2f(lineAxis[row], row));
-                    //cout << lineAxis << endl;
-                    break;
-                }
-            }
-            else
-            {
-                lineFlag = false;
-                blackPixel[row] = 0;
-            }
-        }
-    }
-    if (points.size() > 5)
-    {
-        fitLine(Mat(points), verticalLine, CV_DIST_L1, 0, 0.01, 0.01);
-    }
-
-    double k = verticalLine[1] / verticalLine[0];
-    double step = 100;
-    cv::line(srcImage, cvPoint(verticalLine[2] - step, verticalLine[3] - k * step), cvPoint(verticalLine[2] + step, k * step + verticalLine[3]), Scalar(0, 0, 255), 5);
-    imshow("dstImage", srcImage);
-    cout << "是否检测到盒子: " << lineFlag << endl;
-}
-=======
 extern context _rs_ctx;
 extern device *_rs_camera;
 extern intrinsics _depth_intrin;
 extern intrinsics _color_intrin;
 extern bool _loop;
->>>>>>> de1bc78909c106f4a899e157e1ac750c98aa19bf
 
+char window_name[30] = "HSV Segmentation";
+Mat src;
+
+static void onMouse(int event, int x, int y, int f, void *)
+{
+    Mat image = src.clone();
+    Vec3b rgb = image.at<Vec3b>(y, x);
+    int B = rgb.val[0];
+    int G = rgb.val[1];
+    int R = rgb.val[2];
+
+    Mat HSV;
+    Mat RGB = image(Rect(x, y, 1, 1));
+    cvtColor(RGB, HSV, CV_BGR2HSV);
+
+    Vec3b hsv = HSV.at<Vec3b>(0, 0);
+    int H = hsv.val[0];
+    int S = hsv.val[1];
+    int V = hsv.val[2];
+
+    char name[30];
+    sprintf(name, "R=%d", R);
+    putText(image, name, Point(150, 40), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "G=%d", G);
+    putText(image, name, Point(150, 80), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "B=%d", B);
+    putText(image, name, Point(150, 120), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "H=%d", H);
+    putText(image, name, Point(25, 40), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "S=%d", S);
+    putText(image, name, Point(25, 80), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "V=%d", V);
+    putText(image, name, Point(25, 120), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 255, 0), 2, 8, false);
+
+    sprintf(name, "X=%d", x);
+    putText(image, name, Point(25, 300), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 0, 255), 2, 8, false);
+
+    sprintf(name, "Y=%d", y);
+    putText(image, name, Point(25, 340), FONT_HERSHEY_SIMPLEX, .7, Scalar(0, 0, 255), 2, 8, false);
+
+    //imwrite("hsv.jpg",image);
+    // imshow(WINDOW_RGB, image);
+}
+int num = 1;
 /////////////////////////////////////////////////////////////////////////////
 // Main function
 /////////////////////////////////////////////////////////////////////////////
@@ -220,8 +78,8 @@ int main() try
     }
 
     setup_windows();
-    RS_OPTION_R200_EMITTER_ENABLED;
-    RS_OPTION_R200_LR_AUTO_EXPOSURE_ENABLED;
+    //RS_OPTION_R200_EMITTER_ENABLED;
+    //RS_OPTION_R200_LR_AUTO_EXPOSURE_ENABLED;
     // Loop until someone left clicks on either of the images in either window.
     while (_loop)
     {
@@ -232,7 +90,6 @@ int main() try
         // Get current frames intrinsic data.
         _depth_intrin = _rs_camera->get_stream_intrinsics(rs::stream::depth);
         _color_intrin = _rs_camera->get_stream_intrinsics(rs::stream::color);
-
         // Create depth image
         cv::Mat depth16(_depth_intrin.height, _depth_intrin.width, CV_16U, (uchar *)_rs_camera->get_frame_data(rs::stream::depth));
 
@@ -250,6 +107,21 @@ int main() try
         cvWaitKey(1);
 
         cv::cvtColor(rgb, rgb, cv::COLOR_BGR2RGB);
+        src = rgb;
+        // int key = waitKey(1);
+
+        // if ((char)key == 'S' || (char)key == 's')
+        // {
+        //     cout << "ok" << endl;
+        //     char file[100];
+        //     //string file="lena";
+        //     sprintf(file, "%u.bmp", num);
+        //     imwrite(file, rgb);
+        //     key = 0;
+        //     num++;
+        // }
+
+        // setMouseCallback(WINDOW_RGB, onMouse, 0);
         imshow(WINDOW_RGB, rgb);
         cvWaitKey(1);
 
@@ -262,10 +134,14 @@ int main() try
         pair<Mat, float> distanceMatrixResult;
         distanceMatrixResult = getDistanceMatrix(_rs_camera);
         Mat distanceMatrix = distanceMatrixResult.first;
-        imwrite("depth.png", distanceMatrix);
+        
+        imwrite("depth.png", depth8u);
         float scale = distanceMatrixResult.second;
-        cout << distanceMatrix.at<uint16_t>(200, 200) * scale << endl;
-        detectSquareBox(rgb, distanceMatrix);
+        distanceMatrix.convertTo(distanceMatrix, CV_8UC1, 255.0 / 1000);        
+        cout << distanceMatrix.at<uint8_t>(200, 200) * scale << endl;
+        Mat smoothDepth = realSenseSmooth(depth8u);
+        imshow("smooth", smoothDepth);
+        //detectSquareBox(rgb, distanceMatrix);
     }
 
     _rs_camera->stop();
@@ -273,7 +149,6 @@ int main() try
 
     return EXIT_SUCCESS;
 }
-
 
 catch (const rs::error &e)
 {
