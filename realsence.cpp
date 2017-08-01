@@ -648,5 +648,6 @@ float getAngle(Mat distanceMatrix, float scale, int y)
 	float averageLeft = sumLeft / countLeft * scale;
 	float averageRight = sumRight / countRight * scale;
 	angle = atan(abs(averageLeft - averageRight) / distanceLeftRight) * 180.0 / 3.1415;
+	cout << "averageLeft: " << averageLeft << " averageRight: " << averageRight << endl;
 	return angle;
 }
